@@ -9,7 +9,19 @@ header('Content-Type: application/json; charset=utf-8');
 
 
 // ==================================================
-// 🟨 CATEGORIA 2 — IDENTIFICAÇÃO DA REQUISIÇÃO
+// 🟨 CATEGORIA 2 — CARREGAMENTO DO CONTROLLER
+// ==================================================
+
+// Carrega o Controller responsável pelos chamados
+require_once __DIR__ . '/../controllers/ChamadoController.php';
+
+
+// Cria um objeto do Controller
+$controller = new ChamadoController();
+
+
+// ==================================================
+// 🟩 CATEGORIA 3 — IDENTIFICAÇÃO DA REQUISIÇÃO
 // ==================================================
 
 // Pega o método HTTP utilizado na requisição
@@ -17,18 +29,14 @@ $metodo = $_SERVER['REQUEST_METHOD'];
 
 
 // ==================================================
-// 🟩 CATEGORIA 3 — ROTA GET
+// 🟧 CATEGORIA 4 — ROTA GET
 // ==================================================
 
-// Verifica se a requisição utilizou o método GET
+// Verifica se a requisição utilizou GET
 if ($metodo === 'GET') {
 
-    // Retorna uma resposta informando que a rota existe
-    echo json_encode([
-        'sucesso' => true,
-        'mensagem' => 'Rota de chamados funcionando.',
-        'metodo' => 'GET'
-    ]);
+    // Chama a função responsável pela consulta
+    $controller->listar();
 
     // Encerra a execução
     exit;
@@ -36,19 +44,14 @@ if ($metodo === 'GET') {
 
 
 // ==================================================
-// 🟧 CATEGORIA 4 — ROTA POST
+// 🟥 CATEGORIA 5 — ROTA POST
 // ==================================================
 
-// Verifica se a requisição utilizou o método POST
+// Verifica se a requisição utilizou POST
 if ($metodo === 'POST') {
 
-    // Retorna uma resposta informando que a criação de chamado
-    // ainda será implementada
-    echo json_encode([
-        'sucesso' => true,
-        'mensagem' => 'Rota para criação de chamado funcionando.',
-        'metodo' => 'POST'
-    ]);
+    // Chama a função responsável pela criação
+    $controller->criar();
 
     // Encerra a execução
     exit;
@@ -56,13 +59,14 @@ if ($metodo === 'POST') {
 
 
 // ==================================================
-// 🟥 CATEGORIA 5 — MÉTODO NÃO PERMITIDO
+// 🟪 CATEGORIA 6 — MÉTODO NÃO PERMITIDO
 // ==================================================
 
-// Define o código HTTP 405 para métodos não permitidos
+// Define o código HTTP 405
 http_response_code(405);
 
-// Retorna uma mensagem de erro em JSON
+
+// Retorna o erro em JSON
 echo json_encode([
     'sucesso' => false,
     'erro' => 'Método HTTP não permitido.'

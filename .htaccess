@@ -1,0 +1,28 @@
+# ==================================================
+# 🟦 CATEGORIA 1 — ATIVAÇÃO DO REWRITE
+# ==================================================
+
+RewriteEngine On
+
+
+# ==================================================
+# 🟨 CATEGORIA 2 — IGNORAR ARQUIVOS EXISTENTES
+# ==================================================
+
+# Se a requisição já aponta para um arquivo existente,
+# não modifica o caminho.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+
+# Se a requisição já aponta para uma pasta existente,
+# não modifica o caminho.
+RewriteCond %{REQUEST_FILENAME} -d
+
+RewriteRule ^ - [L]
+
+
+# ==================================================
+# 🟩 CATEGORIA 3 — ENVIO PARA O INDEX
+# ==================================================
+
+# Envia as outras requisições para o index.php
+RewriteRule ^ index.php [QSA,L]
